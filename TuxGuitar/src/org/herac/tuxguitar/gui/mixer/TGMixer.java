@@ -40,13 +40,8 @@ public class TGMixer implements IconLoader,LanguageLoader{
 	public static final int SOLO = 0x02;
 	public static final int VOLUME = 0x04;
 	public static final int BALANCE = 0x08;
-	public static final int CHORUS = 0x10;
-	public static final int REVERB = 0x20;
-	public static final int PHASER = 0x40;
-	public static final int TREMOLO = 0x80;
-	public static final int CHANNEL = 0x100;
-	
-	public static final int CHANGE_ALL = (MUTE | SOLO | VOLUME | BALANCE | CHORUS | REVERB | PHASER | TREMOLO | CHANNEL);
+	public static final int CHANNEL = 0x10;
+	public static final int CHANGE_ALL = (MUTE | SOLO | VOLUME | BALANCE | CHANNEL);
 	
 	protected Shell dialog;
 	private List tracks;
@@ -114,7 +109,7 @@ public class TGMixer implements IconLoader,LanguageLoader{
 		
 		this.loadVolume();
 		this.loadIcons();
-		this.loadProperties(false);
+		this.loadProperties();
 		
 		this.dialog.setLayout(getLayout(this.dialog.getChildren().length));
 		this.dialog.pack();
@@ -182,10 +177,6 @@ public class TGMixer implements IconLoader,LanguageLoader{
 	}
 	
 	public synchronized void loadProperties(){
-		this.loadProperties(true);
-	}
-	
-	public synchronized void loadProperties(boolean pack){
 		if(!isDisposed()){
 			Iterator it = this.tracks.iterator();
 			while(it.hasNext()){
@@ -196,11 +187,9 @@ public class TGMixer implements IconLoader,LanguageLoader{
 			this.volumeTip = TuxGuitar.getProperty("mixer.volume");
 			this.volumeScale.setToolTipText(this.volumeTip + ": " + TuxGuitar.instance().getPlayer().getVolume());
 			this.dialog.setText(TuxGuitar.getProperty("mixer"));
-			if( pack ){
-				this.dialog.pack();
-				this.dialog.layout(true,true);
-				this.dialog.redraw();
-			}
+			this.dialog.pack();
+			this.dialog.layout(true,true);
+			this.dialog.redraw();
 		}
 	}
 	
